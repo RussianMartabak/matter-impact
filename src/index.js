@@ -28,7 +28,7 @@ var config = {
     }
 }
 //global namespace
-
+var bullet, platform
 
 var game = new Phaser.Game(config);
 
@@ -41,9 +41,28 @@ function preload(){
 function create(){
 
     //spawn box
-    this.matter.add.image(500, 100, 'box');
+    var box = this.matter.add.image(500, 100, 'box');
     //spawn platform
-    this.matter.add.image(350, 500, 'terrain', null, {isStatic: true});
+    platform = this.matter.add.image(350, 500, 'terrain', null, {isStatic: true});
+    this.add.text(16, 16, 'Click to fire a bullet', {fontSize: '32px', fill: '#fff'});
+
+
+    //input handler 
+    this.input.on('pointerdown', fire);
+
+    bullet = this.matter.add.image(0, 250, 'bullet');
+    bullet.setStatic(true);
+    
+
+    function fire() {
+        //spawn bullet
+        bullet.setStatic(false);
+        bullet.setVelocityX(100);
+        console.log('HAAA');
+    }
+
+    
+    
 }
 
 function update(){
