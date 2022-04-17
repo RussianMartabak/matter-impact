@@ -28,7 +28,7 @@ var config = {
     }
 }
 //global namespace
-var bullet, platform
+var bullet, platform, text, box;
 
 var game = new Phaser.Game(config);
 
@@ -41,11 +41,12 @@ function preload(){
 function create(){
 
     //spawn box
-    var box = this.matter.add.image(400, 100, 'box');
+    box = this.matter.add.image(400, 100, 'box');
     box.setDensity(0.005)
     //spawn platform
     platform = this.matter.add.image(350, 500, 'terrain', null, {isStatic: true});
-    this.add.text(16, 16, 'Click to fire a bullet', {fontSize: '32px', fill: '#fff'});
+    text = this.add.text(16, 16, 'Click to fire a bullet', {fontSize: '32px', fill: '#fff'});
+
 
 
     
@@ -62,13 +63,22 @@ function create(){
         bullet = context.matter.add.image(0, 250, 'bullet');
         console.log(bullet.isStatic());
         bullet.setVelocityX(100);
-        console.log('HAAA');
+        
+        
     }
+
+    
 
     
     
 }
 
 function update(){
-
+    if (bullet) {
+        this.matter.overlap(bullet, box, hit, null, this);
+    }
+    
+    function hit(a, b, collisionInfo) {
+        text.setText('HIT!!');
+    }
 }
